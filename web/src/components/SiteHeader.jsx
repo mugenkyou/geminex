@@ -21,22 +21,20 @@ export default function SiteHeader() {
             <span className="nav-pill-text">Overview</span>
             <span className="nav-pill-shimmer" aria-hidden="true" />
           </a>
-          <a
-            href="https://github.com/mugenkyou/geminex#how-it-works"
-            className="nav-pill-item anim-nav-2"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="#how-it-works" className="nav-pill-item anim-nav-2">
             <span className="nav-pill-text">How It Works</span>
             <span className="nav-pill-shimmer" aria-hidden="true" />
           </a>
-          <a
-            href="https://github.com/mugenkyou/geminex#the-six-invariants"
-            className="nav-pill-item anim-nav-3"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span className="nav-pill-text">Capabilities</span>
+          <a href="#invariants" className="nav-pill-item anim-nav-3">
+            <span className="nav-pill-text">Invariants</span>
+            <span className="nav-pill-shimmer" aria-hidden="true" />
+          </a>
+          <a href="#installation" className="nav-pill-item anim-nav-4">
+            <span className="nav-pill-text">Install</span>
+            <span className="nav-pill-shimmer" aria-hidden="true" />
+          </a>
+          <a href="#classifier" className="nav-pill-item anim-nav-3">
+            <span className="nav-pill-text">Classifier</span>
             <span className="nav-pill-shimmer" aria-hidden="true" />
           </a>
           <a

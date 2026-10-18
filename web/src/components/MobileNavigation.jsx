@@ -49,25 +49,23 @@ export default function MobileNavigation({ isOpen, onClose }) {
             </a>
           </li>
           <li className="mobile-nav-item">
-            <a
-              href="https://github.com/mugenkyou/geminex#how-it-works"
-              className="mobile-nav-link"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={onClose}
-            >
+            <a href="#how-it-works" className="mobile-nav-link" onClick={onClose}>
               How It Works
             </a>
           </li>
           <li className="mobile-nav-item">
-            <a
-              href="https://github.com/mugenkyou/geminex#the-six-invariants"
-              className="mobile-nav-link"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={onClose}
-            >
-              Capabilities
+            <a href="#invariants" className="mobile-nav-link" onClick={onClose}>
+              The 6 Invariants
+            </a>
+          </li>
+          <li className="mobile-nav-item">
+            <a href="#installation" className="mobile-nav-link" onClick={onClose}>
+              Installation & Host Matrix
+            </a>
+          </li>
+          <li className="mobile-nav-item">
+            <a href="#classifier" className="mobile-nav-link" onClick={onClose}>
+              Interactive Shell Classifier
             </a>
           </li>
           <li className="mobile-nav-item">
@@ -78,7 +76,7 @@ export default function MobileNavigation({ isOpen, onClose }) {
               rel="noopener noreferrer"
               onClick={onClose}
             >
-              GitHub
+              GitHub Repository
             </a>
           </li>
         </ul>

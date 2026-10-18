@@ -13,10 +13,8 @@ export default function HeroActions() {
         <span className="btn-shimmer" aria-hidden="true" />
       </a>
       <a
-        href="https://github.com/mugenkyou/geminex#readme"
+        href="#how-it-works"
         className="btn-hero-secondary anim-cta-secondary"
-        target="_blank"
-        rel="noopener noreferrer"
       >
         <span className="btn-label">Explore the Project</span>
         <span className="btn-shimmer" aria-hidden="true" />
