@@ -43,13 +43,19 @@ def build_bundle(plugin_name: str, skills_names: list[str], bundle_dest: Path):
         if p.is_dir():
             shutil.rmtree(p)
 
+    # normalize line endings to LF for all text files
+    for p in bundle_dest.rglob("*"):
+        if p.is_file() and p.suffix in {".py", ".md", ".json", ".sh"}:
+            p.write_bytes(p.read_bytes().replace(b"\r\n", b"\n"))
+
     # generate SHA256SUMS
     lines = []
-    for path in sorted(bundle_dest.rglob("*")):
-        if path.is_file() and path.name != "SHA256SUMS":
-            digest = hashlib.sha256(path.read_bytes()).hexdigest()
-            lines.append(f"{digest}  {path.relative_to(bundle_dest).as_posix()}")
-    (bundle_dest / "SHA256SUMS").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    files = [p for p in bundle_dest.rglob("*") if p.is_file() and p.name != "SHA256SUMS"]
+    files.sort(key=lambda p: p.relative_to(bundle_dest).parts)
+    for path in files:
+        digest = hashlib.sha256(path.read_bytes()).hexdigest()
+        lines.append(f"{digest}  {path.relative_to(bundle_dest).as_posix()}")
+    (bundle_dest / "SHA256SUMS").write_bytes(("\n".join(lines) + "\n").encode("utf-8"))
     print(f"Built {bundle_dest}")
 
 
