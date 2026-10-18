@@ -13,3 +13,4 @@ benchmarks/results/*.json
 *.DS_Store
 .DS_Store
 benchmarks/fixtures/
+node_modules/
