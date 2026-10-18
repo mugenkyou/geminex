@@ -7,10 +7,10 @@ export default function BackgroundVideo() {
   const [hasError, setHasError] = useState(false);
 
   return (
-    <div className="bg-video-wrapper" aria-hidden="true">
+    <div className="arch-bg-video-container" aria-hidden="true">
       {!hasError ? (
         <video
-          className="bg-video"
+          className="arch-bg-video"
           autoPlay
           muted
           loop
@@ -21,11 +21,12 @@ export default function BackgroundVideo() {
           <source src={HERO_VIDEO_URL} type="video/mp4" />
         </video>
       ) : (
-        <div className="bg-video-fallback" />
+        <div className="arch-bg-video-fallback" />
       )}
-      {/* Cinematic scrim layers */}
-      <div className="bg-scrim-radial" />
-      <div className="bg-scrim-linear" />
+      {/* Archify-style dark scrims and ambient orange glow overlay */}
+      <div className="arch-bg-scrim-dark" />
+      <div className="arch-bg-scrim-fade" />
+      <div className="arch-bg-ambient-orange" />
     </div>
   );
 }

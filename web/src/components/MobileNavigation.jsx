@@ -4,23 +4,16 @@ export default function MobileNavigation({ isOpen, onClose }) {
   useEffect(() => {
     if (!isOpen) return;
 
-    // Prevent background scrolling
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
 
-    // Close on Escape key
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
+      if (e.key === 'Escape') onClose();
     };
     window.addEventListener('keydown', handleKeyDown);
 
-    // Close on resize > 900px
     const handleResize = () => {
-      if (window.innerWidth > 900) {
-        onClose();
-      }
+      if (window.innerWidth > 900) onClose();
     };
     window.addEventListener('resize', handleResize);
 
@@ -36,63 +29,52 @@ export default function MobileNavigation({ isOpen, onClose }) {
   return (
     <div
       id="mobile-navigation"
-      className="mobile-nav-overlay"
+      className="arch-mobile-overlay"
       role="dialog"
       aria-modal="true"
       aria-label="Mobile Navigation"
     >
-      <nav className="mobile-nav-content" aria-label="Mobile Navigation Links">
-        <ul className="mobile-nav-list">
-          <li className="mobile-nav-item">
-            <a href="#top" className="mobile-nav-link" onClick={onClose}>
-              Overview
-            </a>
-          </li>
-          <li className="mobile-nav-item">
-            <a href="#how-it-works" className="mobile-nav-link" onClick={onClose}>
-              How It Works
-            </a>
-          </li>
-          <li className="mobile-nav-item">
-            <a href="#invariants" className="mobile-nav-link" onClick={onClose}>
-              The 6 Invariants
-            </a>
-          </li>
-          <li className="mobile-nav-item">
-            <a href="#installation" className="mobile-nav-link" onClick={onClose}>
-              Installation & Host Matrix
-            </a>
-          </li>
-          <li className="mobile-nav-item">
-            <a href="#classifier" className="mobile-nav-link" onClick={onClose}>
-              Interactive Shell Classifier
-            </a>
-          </li>
-          <li className="mobile-nav-item">
-            <a
-              href="https://github.com/mugenkyou/geminex"
-              className="mobile-nav-link"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={onClose}
-            >
-              GitHub Repository
-            </a>
-          </li>
-        </ul>
+      <div className="arch-mobile-inner">
+        <div className="arch-mobile-label">NAVIGATION</div>
+        <nav className="arch-mobile-links" aria-label="Mobile Navigation Links">
+          <a href="#top" className="arch-mobile-link" onClick={onClose}>
+            <span>01</span> Overview
+          </a>
+          <a href="#problem" className="arch-mobile-link" onClick={onClose}>
+            <span>02</span> The Problem
+          </a>
+          <a href="#how-it-works" className="arch-mobile-link" onClick={onClose}>
+            <span>03</span> How It Works
+          </a>
+          <a href="#invariants" className="arch-mobile-link" onClick={onClose}>
+            <span>04</span> Six Invariants
+          </a>
+          <a href="#integrations" className="arch-mobile-link" onClick={onClose}>
+            <span>05</span> Integrations
+          </a>
+          <a href="#evidence" className="arch-mobile-link" onClick={onClose}>
+            <span>06</span> Evidence & Proof
+          </a>
+          <a href="#security" className="arch-mobile-link" onClick={onClose}>
+            <span>07</span> Security Limits
+          </a>
+          <a href="#workflow" className="arch-mobile-link" onClick={onClose}>
+            <span>08</span> Install & Quickstart
+          </a>
+        </nav>
 
-        <div className="mobile-nav-cta-wrapper">
+        <div className="arch-mobile-footer">
           <a
             href="https://github.com/mugenkyou/geminex"
-            className="mobile-nav-cta"
+            className="arch-mobile-cta"
             target="_blank"
             rel="noopener noreferrer"
             onClick={onClose}
           >
-            Get Started
+            GitHub Repository
           </a>
         </div>
-      </nav>
+      </div>
     </div>
   );
 }
