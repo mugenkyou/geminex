@@ -21,59 +21,65 @@ export default function ResearchPreview() {
           </p>
         </div>
 
-        {/* Clean Editorial Layout */}
-        <div className="arch-research-card">
-          <div className="arch-research-statement">
-            <h3 className="arch-statement-title">No Unsubstantiated Marketing Claims</h3>
-            <p className="arch-statement-text">
-              Comparative benchmark dominance across arbitrary external benchmarks has not yet been established. Geminex does not make commercial claims of outperforming unassisted agents on general software engineering metrics.
+        {/* Minimalist Editorial Callout & References */}
+        <div className="arch-research-editorial">
+          <div className="arch-research-core-statement">
+            <h3 className="arch-research-statement-title">Zero Unsubstantiated Performance Claims</h3>
+            <p className="arch-research-statement-text">
+              Comparative benchmark dominance across external benchmarks has not yet been established. Geminex does not make commercial claims of outperforming unassisted agents on general software engineering benchmarks.
             </p>
-            <p className="arch-statement-text">
-              What Geminex guarantees is deterministic enforcement of declared engineering rules: mutations will not bypass scope boundaries, tests will not report completion on stale evidence, and failures will not loop blindly without diagnostic change.
+            <p className="arch-research-statement-text">
+              What Geminex guarantees is deterministic enforcement of declared engineering invariants: mutations will not bypass declared scope, completion will not pass on stale evidence, and failures will not loop blindly without diagnostic change.
             </p>
           </div>
 
-          <div className="arch-research-links-grid">
+          <div className="arch-research-links-row">
             <a
               href="https://github.com/mugenkyou/geminex/blob/main/docs/benchmark.md"
               target="_blank"
               rel="noopener noreferrer"
-              className="arch-research-link-card"
+              className="arch-research-ref-item"
             >
-              <div className="arch-link-badge">DOCUMENTATION</div>
-              <div className="arch-link-title">Benchmark Methodology</div>
-              <div className="arch-link-desc">
-                Review the GeminexBench runner architecture, synthetic task fixtures, and honesty gates in <code>docs/benchmark.md</code>.
+              <div className="arch-ref-top">
+                <span className="arch-ref-tag">DOCS</span>
+                <span className="arch-ref-arrow">→</span>
               </div>
-              <div className="arch-link-action">Read Methodology →</div>
+              <h4 className="arch-ref-heading">Benchmark Methodology</h4>
+              <p className="arch-ref-desc">
+                Review the GeminexBench runner architecture, synthetic task fixtures, and honesty gates in <code>docs/benchmark.md</code>.
+              </p>
             </a>
 
             <a
               href="https://github.com/mugenkyou/geminex/tree/main/tests"
               target="_blank"
               rel="noopener noreferrer"
-              className="arch-research-link-card"
+              className="arch-research-ref-item"
             >
-              <div className="arch-link-badge">SOURCE AUDIT</div>
-              <div className="arch-link-title">Automated Test Suite</div>
-              <div className="arch-link-desc">
-                Inspect 30+ unit tests covering invariant enforcement, guard hooks, tamper detection, and bundle sync.
+              <div className="arch-ref-top">
+                <span className="arch-ref-tag">TESTS</span>
+                <span className="arch-ref-arrow">→</span>
               </div>
-              <div className="arch-link-action">Inspect Tests →</div>
+              <h4 className="arch-ref-heading">Automated Test Suite</h4>
+              <p className="arch-ref-desc">
+                Inspect 250+ unit tests covering invariant enforcement, guard hooks, tamper detection, and bundle sync in <code>tests/</code>.
+              </p>
             </a>
 
             <a
               href="https://github.com/mugenkyou/geminex/tree/main/docs/adr"
               target="_blank"
               rel="noopener noreferrer"
-              className="arch-research-link-card"
+              className="arch-research-ref-item"
             >
-              <div className="arch-link-badge">ARCHITECTURE</div>
-              <div className="arch-link-title">Decision Records (ADR)</div>
-              <div className="arch-link-desc">
-                Explore the rationale behind our kernel invariants, memory protocols, and why we avoid universal ceremony.
+              <div className="arch-ref-top">
+                <span className="arch-ref-tag">ARCH</span>
+                <span className="arch-ref-arrow">→</span>
               </div>
-              <div className="arch-link-action">View ADRs →</div>
+              <h4 className="arch-ref-heading">Architecture Decision Records</h4>
+              <p className="arch-ref-desc">
+                Explore the rationale behind kernel invariants, memory protocols, and why we avoid universal ceremony in <code>docs/adr/</code>.
+              </p>
             </a>
           </div>
         </div>

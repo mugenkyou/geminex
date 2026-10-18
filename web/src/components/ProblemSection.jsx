@@ -5,94 +5,113 @@ export default function ProblemSection() {
     {
       num: '01',
       title: 'Unanchored Mutation',
-      summary: 'Editing files without adequately reading their context.',
+      summary: 'Editing files without reading call sites, contracts, or tests.',
       description:
-        'Agents routinely jump straight to mutating a target function before inspecting its call sites, caller contracts, or existing test coverage, generating subtle interface mismatches and breaking downstream consumers.',
-      snippet: 'FAIL: patch applied to target.py before reading callers: 4 regressions introduced in 2 downstream packages.'
+        'Agents frequently patch a function signature before inspecting its callers. Downstream modules break silently because the model assumed caller requirements rather than reading them.',
+      badge: 'INVARIANT 1 VIOLATION',
+      intercept: '[GROUNDING FAILED] Patch applied to src/impact_graph.py before reading callers: 3 regressions introduced.'
     },
     {
       num: '02',
       title: 'Silent Scope Creep',
-      summary: 'Changing files outside the declared scope.',
+      summary: 'Mutating configuration files and tests outside the declared scope.',
       description:
-        'When struggling with an implementation detail, unconstrained agents modify configuration files, environment setups, test fixtures, or unrelated modules to force a pass instead of solving the core task within declared boundaries.',
-      snippet: 'DENIED: agent attempted to edit pyproject.toml and pytest.ini to disable strict linting rules.'
+        'When an implementation proves difficult, unconstrained agents alter config files, loosen linter rules, or modify test assertions to force a pass rather than solving the problem within bounds.',
+      badge: 'INVARIANT 2 VIOLATION',
+      intercept: '[SCOPE DENIED] Agent attempted write to pyproject.toml outside declared allowed_write_scope.'
     },
     {
       num: '03',
-      title: 'Premature Completion',
-      summary: 'Reporting completion without fresh validation.',
+      title: 'Premature Completion on Stale Proof',
+      summary: 'Reporting completion without running tests after the final edit.',
       description:
-        'Agents declare "All tests pass successfully!" after editing files, but the tests they cite were executed before their final edits, or never executed at all, resulting in hallucinated passes on broken builds.',
-      snippet: 'BLOCKED: evidence timestamp (14:02:10) predates final file edit (14:02:18). Stale-pass rejection triggered.'
+        'A model edits a file, runs tests (pass), makes one "small cleanup edit" to comments or imports, and immediately declares completion. The final committed code was never tested.',
+      badge: 'INVARIANT 3 VIOLATION',
+      intercept: '[STALE REJECTION] File modified at 18:24:19 UTC; latest test run was 18:24:11 UTC. Pass invalidated.'
     },
     {
       num: '04',
       title: 'Blind Retry Loops',
-      summary: 'Retrying the same failed operation without changing the approach.',
+      summary: 'Repeating identical failed commands without revising diagnosis.',
       description:
-        'When encountering a test failure or compiler error, agents often re-run identical commands or re-insert the exact same syntax 3 to 5 times without revising their diagnosis, wasting budget and compounding errors.',
-      snippet: 'ABORT: identical command retry detected 3x with identical failure signature. Strategy replan required.'
+        'Faced with a syntax error or failing assertion, models often re-execute the identical command 3 to 5 times without altering their context, hypothesis, or implementation strategy.',
+      badge: 'INVARIANT 4 VIOLATION',
+      intercept: '[RETRY GUARD] Identical command execution detected 3x with zero code change. Strategy replan enforced.'
     },
     {
       num: '05',
       title: 'Contract Drift',
-      summary: "Satisfying superficial tests while missing the task's acceptance criteria.",
+      summary: 'Passing trivial assertions while missing actual acceptance criteria.',
       description:
-        'An agent may modify a unit test or pass a trivial assertion while silently ignoring the explicit task contract and acceptance criteria that the human engineer originally specified.',
-      snippet: 'GATE FAILED: 1/1 unit tests passed, but 2 contract acceptance criteria unsatisfied. Completion denied.'
+        'An agent satisfies a basic unit test but completely neglects the human engineer’s explicit task criteria (e.g. backward compatibility, memory limits, or deterministic cycle handling).',
+      badge: 'INVARIANT 5 VIOLATION',
+      intercept: '[CONTRACT UNMET] 1/1 unit tests passed, but 2 contract acceptance criteria unsatisfied.'
     },
     {
       num: '06',
-      title: 'Unverifiable Claims',
-      summary: 'Making claims that the available evidence cannot support.',
+      title: 'Unverifiable Freeform Claims',
+      summary: 'Making unverifiable statements in prose reports.',
       description:
-        'Freeform LLM text reports like "Checked for memory leaks and race conditions — verified safe!" are untrusted words. Geminex requires every verifiable claim to be backed by fresh, owned validator output.',
-      snippet: 'REJECTED: unverified assertion marked in claim. No deterministic execution artifact supplied.'
+        'Agents declare "Fully tested for concurrency and edge cases." In reality, no concurrency test exists. Geminex requires every verifiable claim to be backed by fresh validator artifacts.',
+      badge: 'INVARIANT 6 VIOLATION',
+      intercept: '[HONESTY GATE] Claim marked unverified: no deterministic execution artifact supplied.'
     }
   ];
 
   return (
     <section className="arch-section" id="problem">
       <div className="arch-section-container">
-        {/* Section Header */}
-        <div className="arch-section-header">
-          <div className="arch-section-eyebrow">
-            <span className="arch-eyebrow-index">[01]</span>
-            <span>FAILURE MODES & REALITY</span>
-          </div>
-          <h2 className="arch-section-title">
-            AI agents can code.
-            <span className="arch-title-em">
-              Who checks the <em>work</em>?
-            </span>
-          </h2>
-          <p className="arch-section-lead">
-            Large language models generate syntactically convincing code, yet production pipelines suffer from systematic reliability failures. Without mechanical invariants, unconstrained agents degrade the repositories they are tasked to improve.
-          </p>
-        </div>
+        {/* Asymmetric 2-Column Editorial Layout */}
+        <div className="arch-editorial-split">
+          {/* Left Column: Anchored Editorial Narrative */}
+          <div className="arch-editorial-left">
+            <div className="arch-section-eyebrow">
+              <span className="arch-eyebrow-index">[01]</span>
+              <span>FAILURE MODES & REALITY</span>
+            </div>
+            <h2 className="arch-editorial-title">
+              AI agents can code.
+              <span className="arch-title-em">
+                Who checks the <em>work</em>?
+              </span>
+            </h2>
+            <p className="arch-editorial-lead">
+              Large language models generate syntactically convincing code, yet autonomous coding pipelines suffer from systematic reliability failures. Without mechanical invariants, unconstrained agents silently degrade the repositories they were tasked to fix.
+            </p>
 
-        {/* Editorial Failure Grid */}
-        <div className="arch-problem-grid">
-          {failureModes.map((mode) => (
-            <div key={mode.num} className="arch-problem-row">
-              <div className="arch-row-meta">
-                <span className="arch-row-num">{mode.num}</span>
-                <span className="arch-row-badge">VULNERABILITY</span>
-              </div>
-
-              <div className="arch-row-body">
-                <h3 className="arch-row-title">{mode.title}</h3>
-                <p className="arch-row-summary">{mode.summary}</p>
-                <p className="arch-row-desc">{mode.description}</p>
-              </div>
-
-              <div className="arch-row-terminal">
-                <div className="arch-term-label">EVIDENCE INTERCEPT</div>
-                <div className="arch-term-code">{mode.snippet}</div>
+            <div className="arch-editorial-quote-box">
+              <div className="arch-quote-bar" />
+              <div className="arch-quote-content">
+                <p className="arch-quote-text">
+                  "Unconstrained agents treat task completion as an exercise in persuasion rather than verification. Geminex makes completion dependent on fresh, owned proof."
+                </p>
+                <span className="arch-quote-author">— Geminex Kernel Specification</span>
               </div>
             </div>
-          ))}
+          </div>
+
+          {/* Right Column: Continuous Technical Failure Stream */}
+          <div className="arch-editorial-right">
+            <div className="arch-failure-stream">
+              {failureModes.map((item) => (
+                <div key={item.num} className="arch-failure-item">
+                  <div className="arch-failure-header">
+                    <span className="arch-failure-num">{item.num}</span>
+                    <h3 className="arch-failure-title">{item.title}</h3>
+                    <span className="arch-failure-badge">{item.badge}</span>
+                  </div>
+
+                  <p className="arch-failure-summary">{item.summary}</p>
+                  <p className="arch-failure-desc">{item.description}</p>
+
+                  <div className="arch-failure-intercept">
+                    <span className="arch-intercept-prefix">MECHANICAL CATCH:</span>
+                    <code>{item.intercept}</code>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>

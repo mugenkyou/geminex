@@ -19,134 +19,157 @@ export default function EvidenceSection() {
             </span>
           </h2>
           <p className="arch-section-lead">
-            In unconstrained agent systems, tests can pass at 10:00:00, the agent edits a file at 10:00:05, and declares victory at 10:00:10. Geminex cryptographically invalidates stale passes.
+            In unconstrained workflows, tests pass at 10:00:00, the model edits code at 10:00:05, and declares victory at 10:00:10. Geminex cryptographically invalidates stale passes.
           </p>
         </div>
 
-        {/* Evidence Pillars Grid */}
-        <div className="arch-evidence-grid">
-          <div className="arch-evidence-card">
-            <div className="arch-ev-badge">PILLAR 01</div>
-            <h3 className="arch-ev-title">Declared Validators</h3>
-            <p className="arch-ev-text">
-              Validators must be declared in <code>contract.json</code> before execution starts. An agent cannot swap a strict test suite for a trivial <code>assert True</code> mock mid-task.
-            </p>
-          </div>
+        {/* Asymmetric Technical Receipt Split */}
+        <div className="arch-evidence-workbench">
+          {/* Left Column: Proof Principles & Interactive Scenario Control */}
+          <div className="arch-evidence-principles">
+            <div className="arch-evidence-intro-card">
+              <h3 className="arch-principle-heading">The 3 Cryptographic Guarantees</h3>
+              <p className="arch-principle-text">
+                Geminex separates validator execution from agent narration. Every verifiable claim must be grounded in an immutable, machine-checked artifact.
+              </p>
 
-          <div className="arch-evidence-card">
-            <div className="arch-ev-badge">PILLAR 02</div>
-            <h3 className="arch-ev-title">Cryptographic Hash Chains</h3>
-            <p className="arch-ev-text">
-              Every file touched within the declared scope is hashed using SHA-256 immediately before and after validator execution. Any post-validation modification invalidates the digest.
-            </p>
-          </div>
-
-          <div className="arch-evidence-card">
-            <div className="arch-ev-badge">PILLAR 03</div>
-            <h3 className="arch-ev-title">Stale-Pass Rejection</h3>
-            <p className="arch-ev-text">
-              If any source file timestamp is newer than the validator completion timestamp, the verification engine raises a <code>StaleEvidenceError</code> and rejects task completion.
-            </p>
-          </div>
-        </div>
-
-        {/* Technical Evidence Receipt Viewer */}
-        <div className="arch-receipt-viewer">
-          <div className="arch-receipt-topbar">
-            <div className="arch-receipt-label">
-              <span className="arch-receipt-dot" />
-              <span>ILLUSTRATIVE EVIDENCE RECORD — SPECIFIED BY schemas/evidence.schema.json</span>
-            </div>
-
-            <div className="arch-receipt-controls">
-              <button
-                type="button"
-                className={`arch-toggle-btn ${staleToggle ? 'is-stale' : 'is-fresh'}`}
-                onClick={() => setStaleToggle(!staleToggle)}
-              >
-                {staleToggle ? 'Simulate File Edit (Stale Evidence Active)' : 'Clean Run (Fresh Evidence)'}
-              </button>
-            </div>
-          </div>
-
-          <div className="arch-receipt-body">
-            <div className="arch-receipt-split">
-              {/* Left Column: Metadata & Chain */}
-              <div className="arch-receipt-meta-col">
-                <div className="arch-meta-row">
-                  <span className="arch-meta-k">TASK_ID:</span>
-                  <span className="arch-meta-v">TASK-GX-2026-0419</span>
-                </div>
-                <div className="arch-meta-row">
-                  <span className="arch-meta-k">CONTRACT_DIGEST:</span>
-                  <span className="arch-meta-v font-mono">sha256:4a8b79e1...392d</span>
-                </div>
-                <div className="arch-meta-row">
-                  <span className="arch-meta-k">VALIDATOR_RUNNER:</span>
-                  <span className="arch-meta-v">geminex-owned (python -m unittest)</span>
-                </div>
-                <div className="arch-meta-row">
-                  <span className="arch-meta-k">EXECUTION_TIMESTAMP:</span>
-                  <span className="arch-meta-v font-mono">2026-10-18T18:24:11.042Z</span>
-                </div>
-                <div className="arch-meta-row">
-                  <span className="arch-meta-k">LAST_FILE_MUTATION:</span>
-                  <span className="arch-meta-v font-mono">
-                    {staleToggle ? '2026-10-18T18:24:19.881Z (+8.8s drift)' : '2026-10-18T18:24:08.102Z (pre-test)'}
-                  </span>
-                </div>
-                <div className="arch-meta-row">
-                  <span className="arch-meta-k">FRESHNESS_VERIFIED:</span>
-                  <span className={`arch-meta-v font-mono ${staleToggle ? 'text-fail' : 'text-pass'}`}>
-                    {staleToggle ? 'FALSE (Stale file touched post-test)' : 'TRUE (0 unverified mutations)'}
-                  </span>
+              <div className="arch-principles-list">
+                <div className="arch-principle-item">
+                  <div className="arch-principle-idx">01</div>
+                  <div className="arch-principle-body">
+                    <h4 className="arch-principle-title">Declared Validators</h4>
+                    <p className="arch-principle-desc">
+                      Validators are declared in <code>contract.json</code> before work begins. Agents cannot swap out strict suites for trivial mocks mid-task.
+                    </p>
+                  </div>
                 </div>
 
-                <div className="arch-receipt-status-banner">
-                  {staleToggle ? (
-                    <div className="arch-status-box is-error">
-                      <div className="arch-status-title">GATE DECISION: REJECTED</div>
-                      <div className="arch-status-sub">
-                        Stale evidence detected. File <code>src/impact_graph.py</code> was modified after validator execution. Re-run validators before claiming completion.
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="arch-status-box is-valid">
-                      <div className="arch-status-title">GATE DECISION: VERIFIED PASS</div>
-                      <div className="arch-status-sub">
-                        All contract criteria and validators confirmed. Tamper-evident receipt emitted with SHA-256 seal.
-                      </div>
-                    </div>
-                  )}
+                <div className="arch-principle-item">
+                  <div className="arch-principle-idx">02</div>
+                  <div className="arch-principle-body">
+                    <h4 className="arch-principle-title">SHA-256 Digest Locking</h4>
+                    <p className="arch-principle-desc">
+                      Every touched file is hashed immediately before and after validator execution. Any post-validation change invalidates the hash.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="arch-principle-item">
+                  <div className="arch-principle-idx">03</div>
+                  <div className="arch-principle-body">
+                    <h4 className="arch-principle-title">Stale-Pass Invalidation</h4>
+                    <p className="arch-principle-desc">
+                      If file modification time is newer than validator completion time, completion is blocked. Passing tests on old code carry zero authority.
+                    </p>
+                  </div>
                 </div>
               </div>
 
-              {/* Right Column: Raw JSON Proof Representation */}
-              <div className="arch-receipt-code-col">
-                <div className="arch-code-bar">
-                  <span>evidence.json (cryptographic record)</span>
-                  <span>status: {staleToggle ? 'INVALID' : 'VALID'}</span>
+              {/* Interactive Scenario Trigger */}
+              <div className="arch-evidence-scenario-box">
+                <div className="arch-scenario-label">TEST SCENARIO SIMULATOR:</div>
+                <div className="arch-scenario-buttons">
+                  <button
+                    type="button"
+                    className={`arch-scenario-btn ${!staleToggle ? 'is-active-fresh' : ''}`}
+                    onClick={() => setStaleToggle(false)}
+                  >
+                    <span className="arch-sim-dot pass-dot" />
+                    <span>Clean Run (Fresh Proof)</span>
+                  </button>
+                  <button
+                    type="button"
+                    className={`arch-scenario-btn ${staleToggle ? 'is-active-stale' : ''}`}
+                    onClick={() => setStaleToggle(true)}
+                  >
+                    <span className="arch-sim-dot fail-dot" />
+                    <span>Post-Test Mutation (Stale Proof)</span>
+                  </button>
                 </div>
-                <pre className="arch-code-block">
-                  <code>{`{
+                <span className="arch-scenario-hint">
+                  {staleToggle
+                    ? 'Simulates an agent modifying a file after running tests. Notice the gate decision instantly flips to BLOCKED.'
+                    : 'Shows a verified run where all edits preceded validator execution with matching SHA-256 digests.'}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Live Cryptographic Evidence Manifest */}
+          <div className="arch-evidence-manifest">
+            <div className="arch-manifest-topbar">
+              <div className="arch-manifest-badge">
+                <span className="arch-manifest-dot" />
+                <span>EVIDENCE RECEIPT (schemas/evidence.schema.json)</span>
+              </div>
+              <span className={`arch-manifest-status ${staleToggle ? 'status-fail' : 'status-pass'}`}>
+                {staleToggle ? 'STATUS: BLOCKED' : 'STATUS: VERIFIED'}
+              </span>
+            </div>
+
+            <div className="arch-manifest-meta-grid">
+              <div className="arch-manifest-meta-item">
+                <span className="arch-meta-lbl">TASK ID</span>
+                <span className="arch-meta-val">GX-TASK-8419</span>
+              </div>
+              <div className="arch-manifest-meta-item">
+                <span className="arch-meta-lbl">CONTRACT DIGEST</span>
+                <span className="arch-meta-val font-mono">sha256:4a8b79e1...</span>
+              </div>
+              <div className="arch-manifest-meta-item">
+                <span className="arch-meta-lbl">VALIDATOR RUNNER</span>
+                <span className="arch-meta-val">geminex-owned</span>
+              </div>
+              <div className="arch-manifest-meta-item">
+                <span className="arch-meta-lbl">DRIFT DRIFT DELTA</span>
+                <span className={`arch-meta-val font-mono ${staleToggle ? 'text-fail' : 'text-pass'}`}>
+                  {staleToggle ? '+8,839 ms (STALE)' : '0 ms (FRESH)'}
+                </span>
+              </div>
+            </div>
+
+            <div className="arch-manifest-code">
+              <div className="arch-code-bar">
+                <span>.geminex/evidence.json (Illustrative Example)</span>
+                <span>SHA-256 Digest Chain</span>
+              </div>
+              <pre className="arch-code-block">
+                <code>{`{
   "$schema": "schemas/evidence.schema.json",
-  "task_id": "TASK-GX-2026-0419",
-  "contract_hash": "sha256:4a8b79e120ef...392d",
+  "task_id": "GX-TASK-8419",
+  "contract_hash": "sha256:4a8b79e120ef60b3...",
   "mutated_files": {
-    "src/impact_graph.py": "${staleToggle ? 'sha256:untracked_mutation_delta' : 'sha256:d17a39bf8e04e21a...'}",
+    "src/impact_graph.py": "${staleToggle ? 'sha256:untracked_post_test_edit' : 'sha256:d17a39bf8e04e21a...'}",
     "tests/test_impact_graph.py": "sha256:49c02d1844fac761..."
   },
   "validator_execution": {
     "command": "python -m unittest discover -s tests",
     "exit_code": 0,
     "timestamp_utc": "2026-10-18T18:24:11.042Z",
-    "stdout_snippet": "Ran 38 tests in 0.412s. OK.",
+    "stdout": "Ran 38 tests in 0.412s. OK.",
     "evidence_freshness": ${staleToggle ? 'false' : 'true'}
   },
   "gate_outcome": "${staleToggle ? 'BLOCKED_STALE_EVIDENCE' : 'VERIFIED_PASS'}"
 }`}</code>
-                </pre>
-              </div>
+              </pre>
+            </div>
+
+            <div className="arch-manifest-gate-box">
+              {staleToggle ? (
+                <div className="arch-gate-result is-blocked">
+                  <div className="arch-gate-result-title">GATE DECISION: BLOCKED</div>
+                  <div className="arch-gate-result-desc">
+                    Stale evidence detected. File <code>src/impact_graph.py</code> was modified 8.8 seconds after validator completion. Re-run declared validators to generate fresh evidence.
+                  </div>
+                </div>
+              ) : (
+                <div className="arch-gate-result is-pass">
+                  <div className="arch-gate-result-title">GATE DECISION: VERIFIED PASS</div>
+                  <div className="arch-gate-result-desc">
+                    All contract criteria verified. Fresh evidence recorded with zero file drift after test execution.
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

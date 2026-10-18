@@ -1,47 +1,17 @@
 import React, { useState } from 'react';
 
 export default function IntegrationsSection() {
-  const [activeTier, setActiveTier] = useState('native');
+  const [selectedTier, setSelectedTier] = useState('native');
+  const [copied, setCopied] = useState(false);
 
-  const tiers = [
-    {
-      id: 'core',
-      badge: 'TIER 01 · BEHAVIORAL',
-      title: 'Core Agent Skills',
-      scope: 'skills/geminex/',
-      host: 'Any Agent / Model Agnostic',
-      enforcement: 'Instructional Guidance',
-      guaranteeLevel: 'Soft Behavioral',
-      summary:
-        'Portable Markdown and YAML agent skills that instruct any model to read before writing, limit changes, and verify before claiming done.',
-      description:
-        'Ideal for rapid setup in Cursor, Claude Code, Windsurf, or custom prompt runners. Delivers structured workflows without requiring host-level modifications or background daemons.',
-      install: `# 1. Install or copy skills to your agent root
+  const tierCommands = {
+    core: `# 1. Copy portable skills to your agent root
 mkdir -p .agents/skills
 cp -r skills/geminex .agents/skills/
 
-# 2. Inspect skill invariants
+# 2. Inspect kernel invariants
 cat .agents/skills/geminex/SKILL.md`,
-      features: [
-        { label: 'Host Modification', value: 'Zero (pure markdown prompts)' },
-        { label: 'Scope Enforcement', value: 'Prompt guidance (model discipline)' },
-        { label: 'Freshness Check', value: 'Instructional checklist' },
-        { label: 'Compatibility', value: 'Universal (Claude, GPT, Gemini, Llama)' }
-      ]
-    },
-    {
-      id: 'native',
-      badge: 'TIER 02 · HARDWARE-ENFORCED',
-      title: 'Antigravity Native Runtime',
-      scope: 'plugins/geminex-antigravity/',
-      host: 'Antigravity IDE / Engine',
-      enforcement: 'Deterministic Pre-Write Hooks',
-      guaranteeLevel: 'Mechanical Enforcement',
-      summary:
-        'Native runtime integration with pre-write tool hooks, guard scripts, and real-time execution interception that physically blocks out-of-scope edits.',
-      description:
-        'Installed as an Antigravity plugin with hooks.json and python runtime scripts. When the model invokes a file write tool, the runtime validates path boundaries before disk access is granted.',
-      install: `# 1. Initialize Antigravity native plugin
+    native: `# 1. Scaffold Antigravity native plugin
 geminex init --host antigravity
 
 # 2. Run runtime diagnostic doctor
@@ -49,41 +19,18 @@ geminex doctor --scope project
 
 # 3. Verify bundle integrity
 bash scripts/build-native-bundle.sh`,
-      features: [
-        { label: 'Host Modification', value: 'Plugin hook registration' },
-        { label: 'Scope Enforcement', value: 'Mechanical pre-write denial' },
-        { label: 'Freshness Check', value: 'Hash-linked evidence engine' },
-        { label: 'Compatibility', value: 'Antigravity IDE & CLI' }
-      ]
-    },
-    {
-      id: 'opencode',
-      badge: 'TIER 03 · SHIM-ENFORCED',
-      title: 'OpenCode Adapter & Shim',
-      scope: 'adapters/opencode/',
-      host: 'OpenCode Interpreter / CLI',
-      enforcement: 'Execution Shim & Permission Profile',
-      guaranteeLevel: 'Tool-Level Boundary',
-      summary:
-        'A permission profile and execution shim that translates OpenCode tool invocations into Geminex policy evaluations before execution.',
-      description:
-        'Wraps tool calls in an execution wrapper that intercepts bash, patch, and read commands. Validates that required reading took place and denies mutations outside declared targets.',
-      install: `# 1. Configure OpenCode with Geminex adapter
+    opencode: `# 1. Configure OpenCode with Geminex adapter
 geminex init --host opencode
 
-# 2. Link permissions profile
-export GEMINEX_PROFILE=strict-engineering
-opencode --plugin adapters/opencode/shim.py`,
-      features: [
-        { label: 'Host Modification', value: 'Execution shim wrapper' },
-        { label: 'Scope Enforcement', value: 'Tool proxy interception' },
-        { label: 'Freshness Check', value: 'Execution log validation' },
-        { label: 'Compatibility', value: 'OpenCode CLI' }
-      ]
-    }
-  ];
+# 2. Launch OpenCode with Geminex policy profile
+opencode --plugin adapters/opencode/geminex_shim.py`
+  };
 
-  const current = tiers.find((t) => t.id === activeTier) || tiers[1];
+  const copyCommand = (cmd) => {
+    navigator.clipboard.writeText(cmd);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   return (
     <section className="arch-section" id="integrations">
@@ -92,7 +39,7 @@ opencode --plugin adapters/opencode/shim.py`,
         <div className="arch-section-header">
           <div className="arch-section-eyebrow">
             <span className="arch-eyebrow-index">[04]</span>
-            <span>RUNTIME ARCHITECTURE</span>
+            <span>INTEGRATION ARCHITECTURE</span>
           </div>
           <h2 className="arch-section-title">
             One policy.
@@ -101,64 +48,124 @@ opencode --plugin adapters/opencode/shim.py`,
             </span>
           </h2>
           <p className="arch-section-lead">
-            Geminex decouples the engineering specification from host capabilities. Choose between prompt-level behavioral guidance and mechanical host-level tool blocking.
+            Geminex separates the invariant specification from the host execution environment. Choose between portable prompt-level guidance and mechanical tool-level enforcement.
           </p>
         </div>
 
-        {/* Integration Tier Selector Tabs */}
-        <div className="arch-integration-tabs">
-          {tiers.map((t) => (
-            <button
-              key={t.id}
-              type="button"
-              className={`arch-integration-tab ${activeTier === t.id ? 'is-active' : ''}`}
-              onClick={() => setActiveTier(t.id)}
-            >
-              <span className="arch-tier-badge">{t.badge}</span>
-              <span className="arch-tier-title">{t.title}</span>
-              <span className="arch-tier-enf">{t.enforcement}</span>
-            </button>
-          ))}
-        </div>
-
-        {/* Integration Detail View */}
-        <div className="arch-tier-detail-card">
-          <div className="arch-tier-left">
-            <div className="arch-tier-meta">
-              <span className="arch-tier-pill">{current.guaranteeLevel}</span>
-              <span className="arch-tier-host">Host: {current.host}</span>
-            </div>
-            <h3 className="arch-tier-name">{current.title}</h3>
-            <p className="arch-tier-summary">{current.summary}</p>
-            <p className="arch-tier-desc">{current.description}</p>
-
-            <div className="arch-tier-specs">
-              <div className="arch-sublabel">ENFORCEMENT CAPABILITIES</div>
-              <div className="arch-specs-grid">
-                {current.features.map((f, i) => (
-                  <div key={i} className="arch-spec-item">
-                    <span className="arch-spec-k">{f.label}</span>
-                    <span className="arch-spec-v">{f.value}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+        {/* Structured Engineering Comparison Table */}
+        <div className="arch-matrix-wrap">
+          <div className="arch-matrix-table-container">
+            <table className="arch-matrix-table">
+              <thead>
+                <tr>
+                  <th className="arch-th-dim">DIMENSION</th>
+                  <th className="arch-th-tier">
+                    <div className="arch-th-name">CORE AGENT SKILLS</div>
+                    <div className="arch-th-tag">skills/geminex/</div>
+                  </th>
+                  <th className="arch-th-tier arch-th-highlight">
+                    <div className="arch-th-name">ANTIGRAVITY NATIVE</div>
+                    <div className="arch-th-tag">plugins/geminex-antigravity/</div>
+                  </th>
+                  <th className="arch-th-tier">
+                    <div className="arch-th-name">OPENCODE SHIM</div>
+                    <div className="arch-th-tag">adapters/opencode/</div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="arch-td-dim">Enforcement Model</td>
+                  <td className="arch-td-val">
+                    <span className="arch-pill-soft">Instructional Guidance</span>
+                  </td>
+                  <td className="arch-td-val arch-td-highlight">
+                    <span className="arch-pill-mech">Mechanical Pre-Write Hooks</span>
+                  </td>
+                  <td className="arch-td-val">
+                    <span className="arch-pill-shim">Execution Tool Shim</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td className="arch-td-dim">Out-of-Scope File Edits</td>
+                  <td className="arch-td-val">Model self-restraint via prompt rules</td>
+                  <td className="arch-td-val arch-td-highlight">
+                    <strong>Physically denied</strong> by hook before write
+                  </td>
+                  <td className="arch-td-val">
+                    <strong>Intercepted & blocked</strong> by command shim
+                  </td>
+                </tr>
+                <tr>
+                  <td className="arch-td-dim">Stale Evidence Invalidation</td>
+                  <td className="arch-td-val">Prompt-guided completion checklist</td>
+                  <td className="arch-td-val arch-td-highlight">
+                    <strong>Cryptographic timestamp verifier</strong>
+                  </td>
+                  <td className="arch-td-val">Execution log verification wrapper</td>
+                </tr>
+                <tr>
+                  <td className="arch-td-dim">Host Invasiveness</td>
+                  <td className="arch-td-val">Zero (pure markdown and yaml files)</td>
+                  <td className="arch-td-val arch-td-highlight">Plugin hook registration (hooks.json)</td>
+                  <td className="arch-td-val">CLI execution wrapper script</td>
+                </tr>
+                <tr>
+                  <td className="arch-td-dim">Supported Runtimes</td>
+                  <td className="arch-td-val">Universal (Claude Code, Cursor, Windsurf)</td>
+                  <td className="arch-td-val arch-td-highlight">Antigravity IDE & Engine</td>
+                  <td className="arch-td-val">OpenCode CLI & Interpreter</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
 
-          <div className="arch-tier-right">
-            <div className="arch-terminal-topbar">
-              <span className="arch-terminal-file">SETUP & INSTALLATION</span>
-              <span className="arch-terminal-runtime">{current.scope}</span>
-            </div>
-            <pre className="arch-code-block arch-install-code">
-              <code>{current.install}</code>
-            </pre>
-            <div className="arch-honest-note">
-              <span className="arch-note-icon">ℹ</span>
-              <span>
-                <strong>Honest distinction:</strong> Core skills rely on model compliance. Native runtime and OpenCode shims guarantee mechanical denial regardless of model behavior.
-              </span>
-            </div>
+          {/* Understated Honest Boundary Callout */}
+          <div className="arch-matrix-disclaimer">
+            <span className="arch-disclaimer-icon">ℹ</span>
+            <span>
+              <strong>Engineering Boundary:</strong> Core Skills deliver behavioral discipline for any LLM without modifying your environment. Hard mechanical blocking of unauthorized tool calls is active when running on Antigravity Native or OpenCode shims.
+            </span>
+          </div>
+        </div>
+
+        {/* Compact Quick-Install Bar */}
+        <div className="arch-quick-install-box">
+          <div className="arch-install-selector">
+            <span className="arch-install-label">QUICK SETUP FOR:</span>
+            <button
+              type="button"
+              className={`arch-install-tab ${selectedTier === 'core' ? 'is-active' : ''}`}
+              onClick={() => setSelectedTier('core')}
+            >
+              Core Skills
+            </button>
+            <button
+              type="button"
+              className={`arch-install-tab ${selectedTier === 'native' ? 'is-active' : ''}`}
+              onClick={() => setSelectedTier('native')}
+            >
+              Antigravity Native
+            </button>
+            <button
+              type="button"
+              className={`arch-install-tab ${selectedTier === 'opencode' ? 'is-active' : ''}`}
+              onClick={() => setSelectedTier('opencode')}
+            >
+              OpenCode Shim
+            </button>
+          </div>
+
+          <div className="arch-install-terminal">
+            <pre><code>{tierCommands[selectedTier]}</code></pre>
+            <button
+              type="button"
+              className="arch-install-copy"
+              onClick={() => copyCommand(tierCommands[selectedTier])}
+              aria-label="Copy installation command"
+            >
+              {copied ? 'Copied ✓' : 'Copy'}
+            </button>
           </div>
         </div>
       </div>
