@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "geminex"
+version = "4.0.0"
+description = "Geminex reliability harness for Antigravity"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+  "jsonschema>=4.0.0",
+  "PyYAML>=6.0",
+  "tomli>=2.0.0; python_version < '3.11'",
+]
+
+[project.scripts]
+geminex = "geminex_cli:main"
+
+# Runtime assets mirrored under sys.prefix/share/geminex/ so the installed
+# `geminex` console script works outside a repository checkout. Layout
+# mirrors the repo root (plugins/..., skills/...); see installed_assets_root().
+[tool.setuptools.data-files]
+"share/geminex/plugins/geminex-antigravity" = [
+  "plugins/geminex-antigravity/plugin.json",
+  "plugins/geminex-antigravity/hooks.json",
+]
+"share/geminex/plugins/geminex-antigravity/scripts" = ["plugins/geminex-antigravity/scripts/*.py"]
+"share/geminex/plugins/geminex-antigravity/rules" = ["plugins/geminex-antigravity/rules/*.md"]
+"share/geminex/plugins/geminex-antigravity/agents" = ["plugins/geminex-antigravity/agents/*.md"]
+"share/geminex/skills/geminex-highstakes" = ["skills/geminex-highstakes/*.md"]
+"share/geminex/skills/geminex" = ["skills/geminex/SKILL.md", "skills/geminex/PROMPT-TEMPLATE.md", "skills/geminex/SESSION_FAILURES.md"]
+"share/geminex/skills/geminex/agents" = ["skills/geminex/agents/*.md"]
+"share/geminex/skills/geminex/references" = ["skills/geminex/references/*.md"]
+"share/geminex/skills/geminex/resources" = ["skills/geminex/resources/*.md"]
+"share/geminex/skills/geminex/scripts" = ["skills/geminex/scripts/*.py", "skills/geminex/scripts/*.sh"]
+"share/geminex/schemas" = ["schemas/*.json"]
+"share/geminex/adapters/opencode/agents" = ["adapters/opencode/agents/*.md"]
+"share/geminex/adapters/opencode/plugin" = ["adapters/opencode/plugin/*.js"]
+"share/geminex/adapters/opencode/permissions" = ["adapters/opencode/permissions/*.json"]
+"share/geminex/adapters/opencode" = ["adapters/opencode/*.md", "adapters/opencode/*.json"]
+
+[tool.setuptools]
+py-modules = ["geminex_cli", "geminex_init"]
+

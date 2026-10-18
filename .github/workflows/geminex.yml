@@ -1,0 +1,74 @@
+name: GEMINEX Verify
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  geminex-verify:
+    name: GEMINEX Verification Gate
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.12']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install package and benchmark validator dependencies
+        run: python -m pip install . -r benchmarks/runner/requirements.txt
+
+      - name: Run unit and runtime tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Audit schemas, manifest, hooks, and claims
+        run: python benchmarks/runner/audit.py
+
+      - name: Validate published benchmark fixtures, if any
+        run: python benchmarks/runner/validate.py --episodes benchmarks/results --allow-empty
+
+      - name: Compile native hook scripts
+        run: python -m py_compile geminex_cli.py geminex_init.py plugins/geminex-antigravity/scripts/*.py skills/geminex/scripts/*.py benchmarks/runner/*.py
+
+      - name: Smoke-test installed CLI
+        run: geminex doctor
+
+      - name: Package build and clean install smoke test
+        run: |
+          python -m pip install build
+          python -m build --outdir /tmp/geminex-pkg
+          python -m pip install --force-reinstall --no-deps /tmp/geminex-pkg/*.whl
+          cd /tmp && geminex doctor
+          cd /tmp && geminex decide --signals '{}'
+          cd /tmp && python -c "import geminex_init; print(geminex_init.detect_hosts('.'))"
+
+      - name: Validate portable skill structure
+        run: python .github/scripts/validate_skill.py
+
+      - name: Build and validate Native bundle
+        run: |
+          bash scripts/build-native-bundle.sh
+          test -f dist/geminex-antigravity/plugin.json
+          test -f dist/geminex-antigravity/hooks.json
+          test -f dist/geminex-antigravity/skills/geminex/SKILL.md
+          test -f dist/geminex-antigravity/skills/geminex-highstakes/SKILL.md
+          test -f dist/geminex-antigravity/rules/geminex-invariants.md
+          test -f dist/geminex-antigravity/scripts/pre_tool.py
+          test -f dist/geminex-antigravity/scripts/geminex_action.py
+          test -f dist/geminex-antigravity/scripts/geminex_policy.py
+          test -f dist/geminex-antigravity/SHA256SUMS
+          git diff --exit-code -- dist/geminex-antigravity
+
+      - name: Validate public README claims
+        run: python scripts/check_readme_claims.py
+
+      - name: Success
+        run: 'echo "VERDICT: PASS — all checks clean"'
